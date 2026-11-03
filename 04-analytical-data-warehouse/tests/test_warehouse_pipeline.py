@@ -114,6 +114,16 @@ class FailureDetectionTests(unittest.TestCase):
             self.assertEqual(first, second)
 
 
+class MetricsTests(unittest.TestCase):
+    def test_metrics_file_reports_expected_counts_and_checks(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            warehouse_pipeline.run(tmp)
+            m = json.loads((Path(tmp) / "metrics.json").read_text())
+        self.assertEqual((m["records_received"], m["records_valid"], m["records_rejected"]), (38, 32, 6))
+        self.assertEqual(m["duplicates_detected"], 0)
+        self.assertEqual((m["validations_passed"], m["validations_total"]), (8, 8))
+        self.assertTrue(m["records_reconciled"])
+
 class QueryLoaderTests(unittest.TestCase):
     def test_queries_are_split_by_name(self):
         queries = warehouse_pipeline.load_queries(PROJECT_ROOT / "sql" / "analytics_queries.sql")

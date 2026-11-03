@@ -6,6 +6,7 @@ Usage (from any directory):
 """
 import argparse
 import json
+import sqlite3
 import sys
 import uuid
 from datetime import datetime, timezone
@@ -20,6 +21,7 @@ for p in (str(REPO_ROOT), str(Path(__file__).resolve().parent)):
 from api_client import ApiClient, ApiError, FileClient, fetch_paginated  # noqa: E402
 from normalize_json import normalize_posts, normalize_users  # noqa: E402
 from shared.logging_utils import get_logger  # noqa: E402
+from shared.metrics import Timer, ValidationResults, build_metrics, write_metrics  # noqa: E402
 from storage import init_db, log_ingestion, save_posts, save_raw_snapshot, save_users  # noqa: E402
 
 log = get_logger("api.pipeline")
@@ -31,7 +33,30 @@ def _now() -> str:
     return datetime.now(timezone.utc).isoformat(timespec="seconds")
 
 
+def integrity_checks(db_path, run_id: str, raw_dir: Path, summary: dict) -> ValidationResults:
+    """Controls run AFTER the load: ingestion status, referential integrity and reconciliation."""
+    checks = ValidationResults()
+    conn = sqlite3.connect(db_path)
+    try:
+        statuses = [r[0] for r in conn.execute("SELECT status FROM ingestion_log WHERE run_id = ?", (run_id,))]
+        orphans = conn.execute(
+            "SELECT COUNT(*) FROM posts p LEFT JOIN users u USING(user_id) WHERE u.user_id IS NULL"
+        ).fetchone()[0]
+    finally:
+        conn.close()
+    checks.add("every endpoint ingested successfully", statuses == ["SUCCESS", "SUCCESS"], f"{statuses}")
+    checks.add("no orphan posts in the database", orphans == 0, f"{orphans} orphans")
+    checks.add("raw JSON snapshot saved for every endpoint",
+               all((raw_dir / f"{e}.json").exists() for e in ("users", "posts")))
+    checks.add("users reconcile (fetched = loaded + dropped)",
+               summary["users_fetched"] >= summary["users_loaded"])
+    checks.add("posts reconcile (fetched = loaded + rejected)",
+               summary["posts_fetched"] == summary["posts_loaded"] + summary["posts_rejected"])
+    return checks
+
+
 def run(client, source: str, output_dir, page_size: int = 10) -> dict:
+    timer = Timer()
     output_dir = Path(output_dir)
     db_path = output_dir / "api_data.db"
     raw_dir = output_dir / "raw"
@@ -82,6 +107,25 @@ def run(client, source: str, output_dir, page_size: int = 10) -> dict:
     rejected.to_csv(output_dir / "rejected_posts.csv", index=False)
     (output_dir / "run_summary.json").write_text(json.dumps(summary, indent=2) + "\n", encoding="utf-8")
     log.info("Summary: %s", json.dumps(summary))
+
+    checks = integrity_checks(db_path, run_id, raw_dir, summary)
+    users_dropped = summary["users_fetched"] - summary["users_loaded"]
+    reasons = summary["posts_rejection_reasons"]
+    metrics = build_metrics(
+        "02-api-data-integration",
+        received=summary["users_fetched"] + summary["posts_fetched"],
+        valid=summary["users_loaded"] + summary["posts_loaded"],
+        rejected=users_dropped + summary["posts_rejected"],
+        duplicates=users_dropped + reasons.get("DUPLICATE_ID", 0),
+        validations=checks, timer=timer,
+        details={"pages_fetched": summary["users_pages"] + summary["posts_pages"],
+                 "users_invalid_email_flagged": summary["users_invalid_email"],
+                 "users_without_geolocation": summary["users_without_geolocation"],
+                 "posts_rejection_reasons": reasons},
+    )
+    write_metrics(metrics, output_dir)
+    if not checks.all_passed:
+        raise AssertionError(f"Integrity checks failed: {checks.failed_names}")
     return summary
 
 
@@ -97,7 +141,8 @@ def main(argv=None) -> int:
     client = FileClient(PROJECT_ROOT / "data" / "sample") if args.source == "sample" else ApiClient(args.base_url)
     try:
         run(client, args.source, args.output_dir, args.page_size)
-    except ApiError:
+    except (ApiError, AssertionError) as exc:
+        log.error(str(exc))
         return 1
     return 0
 

@@ -164,6 +164,19 @@ GROUP BY year_month, category_name
 ORDER BY year_month, net_revenue DESC;
 ```
 
+### Run metrics
+
+| Metric | Value |
+|--------|------:|
+| Order lines received (source) | 38 |
+| Rows loaded into `fact_sales` | 32 |
+| Lines excluded (3 cancelled orders) | 6 |
+| Duplicated order lines in the fact table | 0 |
+| Validations passed | 8 / 8 |
+| Execution time | ≈ 28 ms (median of 7 runs; machine-dependent) |
+
+The 8 warehouse checks are listed in section 6. Written to `data/output/metrics.json` on every run.
+
 All reports are versioned in [`data/expected/reports/`](data/expected/reports/).
 
 ## 8. Reproducibility
@@ -176,7 +189,7 @@ pip install -r 04-analytical-data-warehouse/requirements.txt
 python 04-analytical-data-warehouse/src/warehouse_pipeline.py
 ```
 
-Generated in `data/output/`: `operational.db`, `warehouse.db`, `reports/*.csv`, `run_summary.json`.
+Generated in `data/output/`: `operational.db`, `warehouse.db`, `reports/*.csv`, `run_summary.json`, `metrics.json`.
 
 ```bash
 sqlite3 04-analytical-data-warehouse/data/output/warehouse.db "SELECT * FROM v_sales_detail LIMIT 5;"

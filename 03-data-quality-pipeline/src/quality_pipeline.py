@@ -21,13 +21,33 @@ for p in (str(REPO_ROOT), str(Path(__file__).resolve().parent)):
 import pandas as pd  # noqa: E402
 
 from report import build_report, file_sha256, render_markdown  # noqa: E402
+from rules import RULES  # noqa: E402
 from shared.logging_utils import get_logger  # noqa: E402
+from shared.metrics import Timer, ValidationResults, build_metrics, write_metrics  # noqa: E402
 from validator import validate  # noqa: E402
 
 log = get_logger("quality.pipeline")
 
 
+def integrity_checks(result, total_rows: int) -> ValidationResults:
+    """Controls on the validation itself: the split must be complete, consistent and traceable."""
+    errors = result.violations[result.violations["severity"] == "error"]
+    checks = ValidationResults()
+    checks.add("input schema contains every required column", True, "checked before validation")
+    checks.add("no record lost (received = valid + rejected)",
+               total_rows == len(result.valid) + len(result.rejected),
+               f"{total_rows} = {len(result.valid)} + {len(result.rejected)}")
+    checks.add("valid and rejected sets do not overlap",
+               not set(result.valid["source_row"]) & set(result.rejected["source_row"]))
+    checks.add("every rejected record has at least one error violation",
+               set(result.rejected["source_row"]) == set(errors["source_row"]))
+    checks.add("no valid record has an error violation",
+               not set(result.valid["source_row"]) & set(errors["source_row"]))
+    return checks
+
+
 def run(input_path, output_dir, as_of: str) -> dict:
+    timer = Timer()
     input_path, output_dir = Path(input_path), Path(output_dir)
     output_dir.mkdir(parents=True, exist_ok=True)
 
@@ -42,6 +62,24 @@ def run(input_path, output_dir, as_of: str) -> dict:
     result.violations.to_csv(output_dir / "violations.csv", index=False)
     (output_dir / "quality_report.json").write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")
     (output_dir / "quality_report.md").write_text(render_markdown(report), encoding="utf-8")
+
+    checks = integrity_checks(result, len(raw))
+    v = result.violations
+    duplicate_rows = v[v["rule_id"].isin(["R001", "R013"])]["source_row"].nunique()
+    rules_triggered = sum(1 for info in report["violations_by_rule"].values() if info["failed_rows"] > 0)
+    metrics = build_metrics(
+        "03-data-quality-pipeline",
+        received=len(raw), valid=len(result.valid), rejected=len(result.rejected),
+        duplicates=duplicate_rows, validations=checks, timer=timer,
+        details={"rules_evaluated": len(RULES), "rules_triggered": rules_triggered,
+                 "error_violations": int((v["severity"] == "error").sum()),
+                 "warning_violations": int((v["severity"] == "warning").sum()),
+                 "valid_rows_with_warnings": report["rows_with_warnings"],
+                 "pass_rate": report["pass_rate"]},
+    )
+    write_metrics(metrics, output_dir)
+    if not checks.all_passed:
+        raise AssertionError(f"Integrity checks failed: {checks.failed_names}")
     return report
 
 
@@ -53,7 +91,11 @@ def main(argv=None) -> int:
     parser.add_argument("--min-pass-rate", type=float, default=0.0, help="Quality gate: exit with code 2 below this rate")
     args = parser.parse_args(argv)
 
-    report = run(args.input, args.output_dir, args.as_of)
+    try:
+        report = run(args.input, args.output_dir, args.as_of)
+    except AssertionError as exc:
+        log.error(str(exc))
+        return 1
     log.info("Pass rate: %.1f%% (%d valid / %d rejected)", report["pass_rate"] * 100, report["valid_rows"], report["rejected_rows"])
     if report["pass_rate"] < args.min_pass_rate:
         log.error("Quality gate FAILED: pass rate %.1f%% < required %.1f%%", report["pass_rate"] * 100, args.min_pass_rate * 100)

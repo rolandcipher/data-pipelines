@@ -1,6 +1,6 @@
 PYTHON ?= python3
 
-.PHONY: install run-all run-sales run-api run-quality run-warehouse test clean
+.PHONY: install metrics run-all run-sales run-api run-quality run-warehouse test clean
 
 install:
 	$(PYTHON) -m pip install -r requirements-dev.txt
@@ -18,6 +18,9 @@ run-quality:
 
 run-warehouse:
 	$(PYTHON) 04-analytical-data-warehouse/src/warehouse_pipeline.py
+
+metrics:
+	$(PYTHON) scripts/collect_metrics.py
 
 test:
 	$(PYTHON) -m pytest -q

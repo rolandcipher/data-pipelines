@@ -111,6 +111,22 @@ Excerpt of `violations.csv`:
 | 12 | C010 | R009 | age | 150 |
 | 16 | C014 | R013 | email | bob.smith@example.com |
 
+### Run metrics
+
+| Metric | Value |
+|--------|------:|
+| Records received | 21 |
+| Records valid | 10 |
+| Records rejected | 11 |
+| Duplicates detected | 2 rows (`R001` duplicate ID, `R013` duplicate e-mail) |
+| Rules evaluated / triggered | 13 / 12 (only `R002 missing_customer_id` never fired) |
+| Violations | 11 errors · 2 warnings |
+| Validations passed | 5 / 5 |
+| Execution time | ≈ 32 ms (median of 7 runs; machine-dependent) |
+
+The 5 validations check the validation itself: schema present · no record lost (21 = 10 + 11) · valid and rejected sets do not overlap ·
+every rejected record has an error violation · no valid record has one. Written to `data/output/metrics.json` on every run.
+
 Full expected outputs: [`data/expected/`](data/expected/)
 (`valid_records.csv`, `rejected_records.csv`, `violations.csv`, `quality_report.json`, `quality_report.md`).
 

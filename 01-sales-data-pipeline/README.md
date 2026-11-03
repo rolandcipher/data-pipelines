@@ -103,6 +103,21 @@ Running the pipeline on the sample data:
 | Rejected rows | 8 |
 | Total revenue (USD) | 1,961.00 |
 
+### Run metrics
+
+| Metric | Value |
+|--------|------:|
+| Records received | 26 |
+| Records valid | 18 |
+| Records rejected | 8 |
+| Duplicates detected | 1 (`DUPLICATE_RECORD`) |
+| Validations passed | 6 / 6 |
+| Execution time | ≈ 44 ms (median of 7 runs; machine-dependent) |
+
+Validation checks run after the load: no record lost (26 = 18 + 8) · `order_id` unique · every rejected record has a reason ·
+SQLite sales rows = clean rows · SQLite rejected rows = rejected rows · revenue in SQLite = revenue in the clean data.
+Written to `data/output/metrics.json` on every run.
+
 Rejected records by reason: `UNKNOWN_PRODUCT` 2 · `CANCELLED_ORDER` 1 · `DUPLICATE_RECORD` 1 ·
 `INVALID_DATE` 1 · `MISSING_QUANTITY` 1 · `NON_POSITIVE_QUANTITY` 1 · `UNSUPPORTED_CURRENCY` 1.
 
@@ -128,7 +143,7 @@ pip install -r 01-sales-data-pipeline/requirements.txt
 python 01-sales-data-pipeline/src/pipeline.py
 ```
 
-Generated in `data/output/`: `sales.db`, `sales_clean.csv`, `rejected_records.csv`, `run_summary.json`.
+Generated in `data/output/`: `sales.db`, `sales_clean.csv`, `rejected_records.csv`, `run_summary.json`, `metrics.json`.
 
 Verify the result against the expected output:
 

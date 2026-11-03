@@ -147,5 +147,16 @@ class EndToEndTests(unittest.TestCase):
             conn.close()
 
 
+class MetricsTests(unittest.TestCase):
+    def test_metrics_file_reports_expected_counts_and_checks(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            pipeline.run(RAW, REFERENCE, tmp)
+            m = json.loads((Path(tmp) / "metrics.json").read_text())
+        self.assertEqual((m["records_received"], m["records_valid"], m["records_rejected"]), (26, 18, 8))
+        self.assertEqual(m["duplicates_detected"], 1)
+        self.assertEqual((m["validations_passed"], m["validations_total"]), (6, 6))
+        self.assertTrue(m["records_reconciled"])
+        self.assertGreater(m["duration_seconds"], 0)
+
 if __name__ == "__main__":
     unittest.main()

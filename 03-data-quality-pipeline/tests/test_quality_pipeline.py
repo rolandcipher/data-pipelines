@@ -136,5 +136,16 @@ class EndToEndTests(unittest.TestCase):
         self.assertEqual(quality_pipeline.main(base + ["--min-pass-rate", "0.9"]), 2)
 
 
+class MetricsTests(unittest.TestCase):
+    def test_metrics_file_reports_expected_counts_and_checks(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            quality_pipeline.run(INPUT, tmp, AS_OF)
+            m = json.loads((Path(tmp) / "metrics.json").read_text())
+        self.assertEqual((m["records_received"], m["records_valid"], m["records_rejected"]), (21, 10, 11))
+        self.assertEqual(m["duplicates_detected"], 2)   # rows flagged by R001 / R013
+        self.assertEqual((m["validations_passed"], m["validations_total"]), (5, 5))
+        self.assertTrue(m["records_reconciled"])
+        self.assertEqual((m["details"]["rules_evaluated"], m["details"]["rules_triggered"]), (13, 12))
+
 if __name__ == "__main__":
     unittest.main()

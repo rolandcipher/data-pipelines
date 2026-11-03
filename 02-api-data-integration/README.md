@@ -87,6 +87,22 @@ With the bundled sample data (10 users, 25 posts, page size 10):
 | Posts loaded | 22 |
 | Posts rejected | 3 → `MISSING_TITLE` 1 · `ORPHAN_USER` 1 · `DUPLICATE_ID` 1 |
 
+### Run metrics
+
+| Metric | Value |
+|--------|------:|
+| Records received (users + posts) | 35 |
+| Records valid | 32 |
+| Records rejected | 3 |
+| Duplicates detected | 1 (duplicate post ID) |
+| Pages fetched | 4 (1 users + 3 posts) |
+| Validations passed | 5 / 5 |
+| Execution time | ≈ 36 ms (median of 7 runs; offline sample; machine-dependent) |
+
+Validation checks: every endpoint ingested successfully · no orphan posts in the database · raw snapshots saved ·
+users reconcile · posts reconcile (25 = 22 + 3). Written to `data/output/metrics.json` on every run.
+With `--source live` the time is dominated by network latency.
+
 Expected files are in [`data/expected/`](data/expected/): `users.csv`, `posts.csv`, `rejected_posts.csv`, `run_summary.json`.
 
 ## 8. Reproducibility
@@ -103,7 +119,7 @@ python 02-api-data-integration/src/api_pipeline.py
 python 02-api-data-integration/src/api_pipeline.py --source live
 ```
 
-Generated in `data/output/`: `api_data.db`, `raw/*.json`, `users.csv`, `posts.csv`, `rejected_posts.csv`, `run_summary.json`.
+Generated in `data/output/`: `api_data.db`, `raw/*.json`, `users.csv`, `posts.csv`, `rejected_posts.csv`, `run_summary.json`, `metrics.json`.
 
 ```bash
 sqlite3 02-api-data-integration/data/output/api_data.db "SELECT * FROM v_posts_per_user;"
