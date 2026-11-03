@@ -1,0 +1,18 @@
+{
+  "source": "sample",
+  "page_size": 10,
+  "users_pages": 1,
+  "users_fetched": 10,
+  "users_loaded": 10,
+  "users_invalid_email": 1,
+  "users_without_geolocation": 1,
+  "posts_pages": 3,
+  "posts_fetched": 25,
+  "posts_loaded": 22,
+  "posts_rejected": 3,
+  "posts_rejection_reasons": {
+    "DUPLICATE_ID": 1,
+    "MISSING_TITLE": 1,
+    "ORPHAN_USER": 1
+  }
+}

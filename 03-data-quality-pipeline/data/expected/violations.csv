@@ -1,0 +1,14 @@
+source_row,customer_id,rule_id,rule_name,severity,field,value,message
+5,C004,R005,invalid_email_format,error,email,david.brown@example,email must look like name@domain.tld
+7,C005,R001,duplicate_customer_id,error,customer_id,C005,customer_id appears more than once (only the first occurrence is kept)
+7,C005,R013,duplicate_email,warning,email,eve.davis@example.com,the same email is used by more than one customer (flagged for review)
+8,C006,R004,missing_email,error,email,,email is required
+9,C007,R006,invalid_signup_date,error,signup_date,2023-13-05,signup_date must be a real calendar date in YYYY-MM-DD format
+10,C008,R007,future_signup_date,error,signup_date,2099-01-10,signup_date cannot be later than the validation date
+11,C009,R008,age_not_numeric,error,age,abc,age must be a whole number
+12,C010,R009,age_out_of_range,error,age,150,age must be between the configured minimum and maximum
+13,C011,R010,invalid_country_code,error,country,XX,country must be a known ISO 3166-1 alpha-2 code
+14,C012,R012,negative_lifetime_value,error,lifetime_value,-50.00,lifetime_value cannot be negative
+16,C014,R013,duplicate_email,warning,email,bob.smith@example.com,the same email is used by more than one customer (flagged for review)
+18,C016,R003,missing_full_name,error,full_name,,full_name is required
+20,C018,R011,lifetime_value_not_numeric,error,lifetime_value,N/A,lifetime_value must be a number

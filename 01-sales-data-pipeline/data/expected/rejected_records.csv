@@ -1,0 +1,9 @@
+order_id,channel,source_file,reject_reason
+N-1006,retail_north,retail_north.csv,DUPLICATE_RECORD
+N-1008,retail_north,retail_north.csv,MISSING_QUANTITY
+N-1009,retail_north,retail_north.csv,NON_POSITIVE_QUANTITY
+N-1010,retail_north,retail_north.csv,UNKNOWN_PRODUCT
+S-2008,retail_south,retail_south.csv,INVALID_DATE
+W-3004,online,online_orders.csv,CANCELLED_ORDER
+W-3007,online,online_orders.csv,UNKNOWN_PRODUCT
+W-3008,online,online_orders.csv,UNSUPPORTED_CURRENCY

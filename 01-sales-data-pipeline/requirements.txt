@@ -1,0 +1,4 @@
+pandas>=2.0
+# Optional engines (only needed for --engine duckdb / --parquet)
+# duckdb>=1.0
+# pyarrow>=15.0

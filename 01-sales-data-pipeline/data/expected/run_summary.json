@@ -1,0 +1,20 @@
+{
+  "input_rows": 26,
+  "clean_rows": 18,
+  "rejected_rows": 8,
+  "rejection_reasons": {
+    "CANCELLED_ORDER": 1,
+    "DUPLICATE_RECORD": 1,
+    "INVALID_DATE": 1,
+    "MISSING_QUANTITY": 1,
+    "NON_POSITIVE_QUANTITY": 1,
+    "UNKNOWN_PRODUCT": 2,
+    "UNSUPPORTED_CURRENCY": 1
+  },
+  "total_revenue": 1961.0,
+  "revenue_by_channel": {
+    "online": 604.79,
+    "retail_north": 521.37,
+    "retail_south": 834.84
+  }
+}

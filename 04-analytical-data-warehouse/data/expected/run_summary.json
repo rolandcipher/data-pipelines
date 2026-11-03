@@ -1,0 +1,16 @@
+{
+  "table_row_counts": {
+    "dim_date": 84,
+    "dim_customer": 8,
+    "dim_product": 6,
+    "fact_sales": 32
+  },
+  "checks_passed": 8,
+  "checks_total": 8,
+  "report_row_counts": {
+    "monthly_revenue": 3,
+    "top_products": 5,
+    "revenue_by_country_category": 15,
+    "customer_summary": 8
+  }
+}

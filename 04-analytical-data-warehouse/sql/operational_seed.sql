@@ -1,0 +1,86 @@
+-- Seed data for the operational database (deterministic sample data).
+
+INSERT INTO categories (category_id, category_name) VALUES
+    (1, 'Accessories'),
+    (2, 'Displays'),
+    (3, 'Peripherals');
+
+INSERT INTO products (product_id, product_name, category_id, list_price) VALUES
+    (1, 'Wireless Mouse', 1, 19.99),
+    (2, 'Mechanical Keyboard', 1, 89.9),
+    (3, 'USB-C Hub', 1, 34.5),
+    (4, '27-Inch Monitor', 2, 229.0),
+    (5, 'Laptop Stand', 1, 39.0),
+    (6, 'Webcam HD', 3, 59.0);
+
+INSERT INTO customers (customer_id, first_name, last_name, email, city, country, created_at) VALUES
+    (1, 'Alice', 'Johnson', 'alice.johnson@example.com', 'Austin', 'US', '2023-11-02'),
+    (2, 'Bob', 'Smith', 'bob.smith@example.com', 'Denver', 'US', '2023-11-15'),
+    (3, 'Carol', 'White', 'carol.white@example.com', 'London', 'GB', '2023-12-01'),
+    (4, 'David', 'Brown', 'david.brown@example.com', 'Toronto', 'CA', '2023-12-10'),
+    (5, 'Eve', 'Davis', 'eve.davis@example.com', 'Berlin', 'DE', '2024-01-03'),
+    (6, 'Frank', 'Miller', 'frank.miller@example.com', 'Madrid', 'ES', '2024-01-09'),
+    (7, 'Grace', 'Lee', 'grace.lee@example.com', 'Seattle', 'US', '2024-01-20'),
+    (8, 'Henry', 'Wilson', 'henry.wilson@example.com', 'Paris', 'FR', '2024-02-02');
+
+INSERT INTO orders (order_id, customer_id, order_date, status) VALUES
+    (13, 5, '2024-01-02', 'completed'),
+    (1, 2, '2024-01-05', 'completed'),
+    (6, 7, '2024-01-06', 'completed'),
+    (7, 1, '2024-01-13', 'completed'),
+    (17, 6, '2024-01-15', 'cancelled'),
+    (3, 4, '2024-01-19', 'completed'),
+    (16, 3, '2024-01-29', 'completed'),
+    (11, 7, '2024-01-30', 'cancelled'),
+    (8, 4, '2024-01-31', 'completed'),
+    (2, 5, '2024-02-02', 'completed'),
+    (15, 6, '2024-02-06', 'completed'),
+    (19, 2, '2024-02-16', 'completed'),
+    (18, 2, '2024-02-19', 'completed'),
+    (14, 3, '2024-02-25', 'completed'),
+    (4, 2, '2024-03-11', 'cancelled'),
+    (9, 1, '2024-03-13', 'completed'),
+    (5, 2, '2024-03-17', 'completed'),
+    (12, 8, '2024-03-17', 'completed'),
+    (20, 6, '2024-03-19', 'completed'),
+    (10, 4, '2024-03-25', 'completed');
+
+INSERT INTO order_items (order_item_id, order_id, product_id, quantity, unit_price, discount_pct) VALUES
+    (1, 1, 1, 1, 19.99, 5),
+    (2, 1, 4, 1, 229.0, 10),
+    (3, 2, 6, 3, 59.0, 10),
+    (4, 2, 5, 2, 39.0, 0),
+    (5, 3, 6, 2, 59.0, 0),
+    (6, 4, 2, 1, 89.9, 5),
+    (7, 5, 4, 2, 229.0, 0),
+    (8, 5, 3, 3, 34.5, 0),
+    (9, 6, 3, 2, 34.5, 0),
+    (10, 6, 1, 4, 19.99, 5),
+    (11, 6, 2, 3, 89.9, 10),
+    (12, 7, 6, 3, 59.0, 0),
+    (13, 8, 1, 3, 19.99, 5),
+    (14, 9, 1, 3, 19.99, 0),
+    (15, 9, 2, 4, 84.9, 5),
+    (16, 10, 4, 2, 229.0, 0),
+    (17, 10, 2, 3, 89.9, 10),
+    (18, 10, 3, 4, 34.5, 10),
+    (19, 11, 3, 2, 34.5, 10),
+    (20, 11, 2, 4, 89.9, 0),
+    (21, 12, 1, 2, 19.99, 0),
+    (22, 13, 4, 4, 229.0, 5),
+    (23, 13, 5, 4, 39.0, 10),
+    (24, 13, 1, 3, 19.99, 10),
+    (25, 14, 6, 1, 59.0, 10),
+    (26, 15, 6, 1, 59.0, 0),
+    (27, 15, 3, 4, 34.5, 0),
+    (28, 16, 1, 2, 19.99, 10),
+    (29, 16, 3, 1, 34.5, 0),
+    (30, 17, 5, 2, 39.0, 0),
+    (31, 17, 6, 2, 59.0, 10),
+    (32, 17, 2, 1, 89.9, 10),
+    (33, 18, 4, 1, 229.0, 0),
+    (34, 18, 1, 3, 19.99, 0),
+    (35, 19, 2, 1, 89.9, 0),
+    (36, 20, 4, 2, 229.0, 5),
+    (37, 20, 1, 2, 19.99, 0),
+    (38, 20, 2, 4, 89.9, 0);

@@ -1,0 +1,99 @@
+{
+  "input_file": "customers_raw.csv",
+  "input_sha256": "25faea4fa7a505fb48000da59a92dbd1a50a8a593d89ab72a7e9882f60efbab9",
+  "as_of": "2024-06-30",
+  "total_rows": 21,
+  "valid_rows": 10,
+  "rows_with_warnings": 1,
+  "rejected_rows": 11,
+  "pass_rate": 0.4762,
+  "completeness_by_column": {
+    "customer_id": 1.0,
+    "full_name": 0.9524,
+    "email": 0.9524,
+    "signup_date": 1.0,
+    "age": 1.0,
+    "country": 1.0,
+    "lifetime_value": 1.0
+  },
+  "violations_by_rule": {
+    "R001": {
+      "name": "duplicate_customer_id",
+      "severity": "error",
+      "field": "customer_id",
+      "failed_rows": 1
+    },
+    "R002": {
+      "name": "missing_customer_id",
+      "severity": "error",
+      "field": "customer_id",
+      "failed_rows": 0
+    },
+    "R003": {
+      "name": "missing_full_name",
+      "severity": "error",
+      "field": "full_name",
+      "failed_rows": 1
+    },
+    "R004": {
+      "name": "missing_email",
+      "severity": "error",
+      "field": "email",
+      "failed_rows": 1
+    },
+    "R005": {
+      "name": "invalid_email_format",
+      "severity": "error",
+      "field": "email",
+      "failed_rows": 1
+    },
+    "R006": {
+      "name": "invalid_signup_date",
+      "severity": "error",
+      "field": "signup_date",
+      "failed_rows": 1
+    },
+    "R007": {
+      "name": "future_signup_date",
+      "severity": "error",
+      "field": "signup_date",
+      "failed_rows": 1
+    },
+    "R008": {
+      "name": "age_not_numeric",
+      "severity": "error",
+      "field": "age",
+      "failed_rows": 1
+    },
+    "R009": {
+      "name": "age_out_of_range",
+      "severity": "error",
+      "field": "age",
+      "failed_rows": 1
+    },
+    "R010": {
+      "name": "invalid_country_code",
+      "severity": "error",
+      "field": "country",
+      "failed_rows": 1
+    },
+    "R011": {
+      "name": "lifetime_value_not_numeric",
+      "severity": "error",
+      "field": "lifetime_value",
+      "failed_rows": 1
+    },
+    "R012": {
+      "name": "negative_lifetime_value",
+      "severity": "error",
+      "field": "lifetime_value",
+      "failed_rows": 1
+    },
+    "R013": {
+      "name": "duplicate_email",
+      "severity": "warning",
+      "field": "email",
+      "failed_rows": 2
+    }
+  }
+}

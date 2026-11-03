@@ -1,0 +1,11 @@
+source_row,customer_id,full_name,email,signup_date,age,country,lifetime_value,warnings
+2,C001,Alice Johnson,alice.johnson@example.com,2023-01-15,34,US,1250.5,
+3,C002,Bob Smith,bob.smith@example.com,2023-02-20,45,US,980.0,
+4,C003,Carol White,carol.white@example.com,2023-03-05,29,GB,450.25,
+6,C005,Eve Davis,eve.davis@example.com,2023-04-01,38,CA,310.75,
+15,C013,Mia Thompson,mia.thompson@example.com,2023-07-19,26,US,890.4,
+16,C014,Noah Garcia,bob.smith@example.com,2023-08-03,44,US,150.0,R013
+17,C015,Olivia Hall,olivia.hall@example.com,2023-08-21,39,ES,1330.0,
+19,C017,Quinn King,quinn.king@example.com,2023-09-30,30,US,605.1,
+21,C019,Sam Scott,sam.scott@example.com,2024-02-14,42,US,0.0,
+22,C020,Tina Green,tina.green@example.com,2024-03-03,28,CA,770.0,

@@ -1,0 +1,11 @@
+user_id,name,username,email,email_valid,phone,website,street,suite,city,zipcode,latitude,longitude,company_name,company_catch_phrase
+1,Leanne Graham,Bret,leanne.graham@example.com,True,1-770-736-8031,example.org,Kulas Light,Apt. 556,Gwenborough,92998-3874,-37.3159,81.1496,Romaguera-Crona,Multi-layered client-server neural-net
+2,Ervin Howell,Antonette,ervin.howell@example.com,True,010-692-6593,example.net,Victor Plains,Suite 879,Wisokyburgh,90566-7771,-43.9509,-34.4618,Deckow-Crist,Proactive didactic contingency
+3,Clementine Bauch,Samantha,clementine.bauch@example.com,True,1-463-123-4447,example.com,Douglas Extension,Suite 847,McKenziehaven,59590-4157,-68.6102,-47.0653,Romaguera-Jacobson,Face to face bifurcated interface
+4,Patricia Lebsack,Karianne,patricia.lebsack@example.com,True,493-170-9623,example.info,Hoeger Mall,Apt. 692,South Elvis,53919-4257,,,Robel-Corkery,Multi-tiered zero tolerance productivity
+5,Chelsey Dietrich,Kamren,chelsey.dietrich@example.com,True,(254)954-1289,example.ca,Skiles Walks,Suite 351,Roscoeview,33263,-31.8129,62.5342,Keebler LLC,User-centric fault-tolerant solution
+6,Mrs. Dennis Schulist,Leopoldo_Corkery,dennis.schulist@example.com,True,1-477-935-8478,example.biz,Norberto Crossing,Apt. 950,South Christy,23505-1337,-71.4197,71.7478,Considine-Lockman,Synchronised bottom-line interface
+7,Kurtis Weissnat,Elwyn.Skiles,kurtis.weissnat@example.com,True,210.067.6132,example.org,Rex Trail,Suite 280,Howemouth,58804-1099,24.8918,21.8984,Johns Group,Configurable multimedia task-force
+8,Nicholas Runolfsdottir V,Maxime_Nienow,invalid-email,False,586.493.6943,example.biz,Ellsworth Summit,Suite 729,Aliyaview,45169,-14.399,-120.7677,Abernathy Group,Implemented secondary concept
+9,Glenna Reichert,Delphine,glenna.reichert@example.com,True,(775)976-6794,example.net,Dayna Park,Suite 449,Bartholomebury,76495-3109,24.6463,-168.8889,Yost and Sons,Switchable contextually-based project
+10,Clementina DuBuque,Moriah.Stanton,clementina.dubuque@example.com,True,024-648-3804,example.ca,Kattie Turnpike,Suite 198,Lebsackbury,31428-2261,-38.2386,57.2232,Hoeger LLC,Centralized empowering task-force

@@ -1,0 +1,22 @@
+customer_id,full_name,email,signup_date,age,country,lifetime_value
+C001,Alice Johnson,alice.johnson@example.com,2023-01-15,34,US,1250.50
+C002,Bob Smith,bob.smith@example.com,2023-02-20,45,US,980.00
+C003,Carol White,carol.white@example.com,2023-03-05,29,GB,450.25
+C004,David Brown,david.brown@example,2023-03-18,52,US,2100.00
+C005,Eve Davis,eve.davis@example.com,2023-04-01,38,CA,310.75
+C005,Eve Davis,eve.davis@example.com,2023-04-01,38,CA,310.75
+C006,Frank Miller,,2023-04-22,41,DE,720.00
+C007,Grace Lee,grace.lee@example.com,2023-13-05,27,US,150.00
+C008,Henry Wilson,henry.wilson@example.com,2099-01-10,33,US,640.00
+C009,Irene Clark,irene.clark@example.com,2023-05-12,abc,GB,520.00
+C010,Jack Taylor,jack.taylor@example.com,2023-06-02,150,US,300.00
+C011,Karen Moore,karen.moore@example.com,2023-06-15,36,XX,410.00
+C012,Leo Martin,leo.martin@example.com,2023-07-01,31,FR,-50.00
+C013,Mia Thompson,mia.thompson@example.com,2023-07-19,26,US,890.40
+C014,Noah Garcia,bob.smith@example.com,2023-08-03,44,US,150.00
+C015,Olivia Hall,olivia.hall@example.com,2023-08-21,39,ES,1330.00
+C016,,peter.young@example.com,2023-09-09,48,US,275.00
+C017,Quinn King,quinn.king@example.com,2023-09-30,30, us ,605.10
+C018,Rose Wright,rose.wright@example.com,2024-01-11,35,AU,N/A
+C019,Sam Scott,sam.scott@example.com,2024-02-14,42,US,0
+C020,Tina Green,tina.green@example.com,2024-03-03,28,CA,770.00
